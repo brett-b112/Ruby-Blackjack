@@ -53,4 +53,4 @@ class Player
       puts "Split not allowed"
     end
   end
-
+end
