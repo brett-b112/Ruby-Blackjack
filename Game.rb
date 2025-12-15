@@ -3,10 +3,9 @@ require_relative 'dealer.rb'
 require_relative 'deck.rb'
 require_relative 'player.rb'
 
-
-
 def select_players
 # User selects the number of players that they want to play with 
+# This inherently selects the number of decks to obscure card counting
     print "Enter how many players you want at the table besides yourself (0 - 5): "
     while true
         begin
@@ -19,12 +18,36 @@ def select_players
             end
         rescue ArgumentError
             puts "Please enter an integer \n"
-        print "Enter how many players you want at the table besides yourself (0 - 5): "
+            print "Enter how many players you want at the table besides yourself (0 - 5): "
         end 
     end 
     puts "You are sitting at a table with #{players} players."
-    return players
+    players
 end 
 
 
-select_players
+def generate_atmosphere
+  # Generate the stack of decks
+  num_a = select_players
+
+  decks = []
+  players = []
+
+  num_a.times do
+    decks << Deck.new
+  end
+
+  num_a.times do
+    players << Player.new
+  end
+
+  return players, decks
+end
+
+
+def main
+    dealer = Dealer.new 
+    players, decks = generate_atmosphere 
+end 
+
+main
