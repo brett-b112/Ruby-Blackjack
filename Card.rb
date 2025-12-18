@@ -17,4 +17,9 @@ class Card
   def ace?
     @value == "Ace"
   end
+
+    def to_s
+    "#{@value} of #{@suit}"
+  end
+
 end

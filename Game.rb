@@ -53,8 +53,18 @@ def deal_initial_cards(players, dealer, shoe)
     players.each { |player| player.hit(shoe.pop) }
     dealer.hit(shoe.pop)
   end
-end
 
+  players.each_with_index do |player, i|
+    puts "Player #{i + 1}:"
+
+    player.hands.each_with_index do |hand, j|
+      cards = hand.map(&:to_s).join(", ")
+      puts "  Hand #{j + 1}: #{cards}"
+    end
+  
+  end
+
+end
 
 def main
     dealer = Dealer.new 

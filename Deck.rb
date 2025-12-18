@@ -14,7 +14,7 @@ class Deck
 
   def build_deck 
     SUITS.flat_map do |suit|
-      VALUES.map { |value| Card.new(value, suit) }
+      VALUES.map { |value| Card.new(suit, value) }
     end
   end
 
