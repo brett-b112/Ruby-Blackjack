@@ -28,7 +28,7 @@ end
 
 def generate_atmosphere
   # Generate the stack of decks
-  num_a = select_players
+  num_a = select_players + 1
 
   decks = []
   players = []
@@ -44,10 +44,23 @@ def generate_atmosphere
   return players, decks
 end
 
+def build_shoe(decks)
+  decks.flat_map(&:deck).shuffle
+end
+
+def deal_initial_cards(players, dealer, shoe)
+  2.times do
+    players.each { |player| player.hit(shoe.pop) }
+    dealer.hit(shoe.pop)
+  end
+end
+
 
 def main
     dealer = Dealer.new 
     players, decks = generate_atmosphere 
+    shoe = build_shoe(decks)
+    deal_initial_cards(players, dealer, shoe)
 end 
 
 main

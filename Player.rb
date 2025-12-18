@@ -12,18 +12,28 @@ class Player
     @current_hand = 0
   end 
 
-  def update_total(hand_index)
-    # This updates the total card value of the current players hand
-    @hands[hand_index].sum { |card| card.value } 
+def update_total(hand_index)
+  hand = @hands[hand_index]
+
+  total = hand.sum(&:value)
+  aces  = hand.count(&:ace?)
+
+  while total > 21 && aces > 0
+    total -= 10
+    aces -= 1
   end
+
+  total
+end
+
 
   def hit(card)
     # Player recieves a card
     return if @stand_status[@current_hand] || @bust_status[@current_hand]
     
-    @hand[@current_hand] << card
+    @hands[@current_hand] << card
 
-    if total(@current_hand) > 21
+    if update_total(@current_hand) > 21
       @bust_status[@current_hand] = true
       puts "Hand #{@current_hand + 1} busted!"
     end
