@@ -61,16 +61,50 @@ def deal_initial_cards(players, dealer, shoe)
       cards = hand.map(&:to_s).join(", ")
       puts "  Hand #{j + 1}: #{cards}"
     end
-  
   end
-
 end
+
+
+def player_turn(player, deck)
+  while !player.stand_status[player.current_hand] && !player.bust_status[player.current_hand]
+    total = player.update_total(player.current_hand)
+    if total < 17
+      player.hit(deck.pop)
+      puts "Player hits, hand total: #{player.update_total(player.current_hand)}"
+    else
+      puts "Player stands, hand total: #{player.update_total(player.current_hand)}"
+      player.stand
+    end
+    total = player.update_total(player.current_hand)
+  end
+end
+
+def determine_winners(players, dealer)
+  dealer_total = dealer.update_total(0)
+  players.each_with_index do |player, i|
+    player_total = player.update_total(player.current_hand)
+    if player_total > 21
+      puts "Player #{i+1} busts!"
+    elsif dealer_total > 21 || player_total > dealer_total
+      puts "Player #{i+1} wins!"
+    elsif player_total < dealer_total
+      puts "Player #{i+1} loses!"
+    else
+      puts "Player #{i+1} pushes (tie)!"
+    end
+  end
+end
+
 
 def main
     dealer = Dealer.new 
     players, decks = generate_atmosphere 
     shoe = build_shoe(decks)
     deal_initial_cards(players, dealer, shoe)
+    players.each { |player| player_turn(player, shoe) }
+    player_turn(dealer, shoe)
+    determine_winners(players, dealer)
+    
 end 
 
 main
