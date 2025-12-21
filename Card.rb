@@ -1,11 +1,12 @@
 class Card
 # Playing card class that contains the suit and value of the card
 
-  attr_reader :suit
+  attr_reader :suit, :display_value
 
   def initialize(suit, value)
     @suit = suit
     @value = value
+    @display_value = value
   end 
 
   def value

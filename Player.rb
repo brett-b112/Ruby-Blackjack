@@ -30,19 +30,17 @@ end
   def hit(card)
     # Player recieves a card
     return if @stand_status[@current_hand] || @bust_status[@current_hand]
-    
+
     @hands[@current_hand] << card
 
     if update_total(@current_hand) > 21
       @bust_status[@current_hand] = true
-      puts "Hand #{@current_hand + 1} busted!"
     end
   end
 
   def stand
     # Player stops receiving cards
     @stand_status[@current_hand] = true
-    puts "User stood no more cards to be recieved"
   end 
 
   def split
